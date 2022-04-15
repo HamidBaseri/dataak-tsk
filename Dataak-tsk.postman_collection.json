@@ -1,0 +1,347 @@
+{
+	"info": {
+		"_postman_id": "6d0bee1d-6437-40e5-8776-0e47734557e5",
+		"name": "Dataak-tsk",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all tweets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/tweets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tweets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all tweets matched with search query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/tweets?q=rerum&date=23-11-2019",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tweets"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "rerum"
+						},
+						{
+							"key": "date",
+							"value": "23-11-2019"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new tweet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/C:/Users/Hamid/Desktop/wh1.jpg"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/Hamid/Desktop/wh2.jpg"
+						},
+						{
+							"key": "body",
+							"value": "fsd fdsf sdfsd fsd fsd fsdf sdf ",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "hamid.baseri",
+							"type": "text"
+						},
+						{
+							"key": "retweets",
+							"value": "1023",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/tweets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tweets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all Instagram posts matched with search query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/instagrams?q=quia&date=20-11-2019",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"instagrams"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "quia"
+						},
+						{
+							"key": "date",
+							"value": "20-11-2019"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all Instagram posts ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/instagrams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"instagrams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new instagram post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/C:/Users/Hamid/Desktop/wh1.jpg"
+						},
+						{
+							"key": "filenames",
+							"type": "file",
+							"src": [
+								"/C:/Users/Hamid/Desktop/wh1.jpg",
+								"/C:/Users/Hamid/Desktop/wh2.jpg"
+							]
+						},
+						{
+							"key": "body",
+							"value": "fsd fdsf sdfsd fsd fsd fsdf sdf ",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "hamid.baseri",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "hamid baseri",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/instagrams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"instagrams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all news",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/news",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"news"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all news matched with query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/news?q=rerum&date=23-11-2019",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"news"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "rerum"
+						},
+						{
+							"key": "date",
+							"value": "23-11-2019"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new News post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/C:/Users/Hamid/Desktop/wh1.jpg"
+						},
+						{
+							"key": "body",
+							"value": "fsd fdsf sdfsd fsd fsd fsdf sdf ",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "source",
+							"value": "BBC",
+							"type": "text"
+						},
+						{
+							"key": "src_url",
+							"value": "https://BBSnews.com/something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/news",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"news"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new Alert for a source",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "source",
+							"value": "BBC",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/alerts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"alerts"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
