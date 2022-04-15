@@ -37,7 +37,7 @@ or
 ```
 
 ### API endpoints
-There is a postman workspace Json file here
+There is a postman workspace Json file https://github.com/HamidBaseri/dataak-tsk/blob/master/Dataak-tsk.postman_collection.json
 Or
 
 #### Get all tweets
