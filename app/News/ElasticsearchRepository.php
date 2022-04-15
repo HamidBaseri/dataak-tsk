@@ -19,14 +19,14 @@ class ElasticsearchRepository implements NewsRepository
         $this->elasticsearch = $elasticsearch;
     }
 
-    public function search(string $query = ''): Collection
+    public function search(string $query = '', string $date = ''): Collection
     {
-        $items = $this->searchOnElasticsearch($query);
+        $items = $this->searchOnElasticsearch($query, $date);
 
         return $this->buildCollection($items);
     }
 
-    private function searchOnElasticsearch(string $query = ''): array
+    private function searchOnElasticsearch(string $query = '', string $date = ''): array
     {
         $model = new News;
 
@@ -39,14 +39,14 @@ class ElasticsearchRepository implements NewsRepository
                         'should' => [
                             [
                                 'multi_match' => [
-                                    'fields' => ['title', 'body','source'],
+                                    'fields' => ['title', 'body', 'source'],
                                     'query' => $query,
                                 ],
                             ],
                             [
                                 'range' => [
                                     "created_at" => [
-                                        "gte" => '23-01-2023',
+                                        "gte" => $date,
                                         "format" => "dd-MM-yyyy"
                                     ],
                                 ],

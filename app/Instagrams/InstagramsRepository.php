@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface InstagramsRepository
 {
-    public function search(string $query = ''): Collection;
+    public function search(string $query = '', string $date = ''): Collection;
 }

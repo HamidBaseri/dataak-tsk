@@ -21,7 +21,11 @@ class InstagramController extends Controller
     public function index(InstagramsRepository $repository)
     {
         if (request()->has('q')) {
-            return $repository->search(request('q'));
+            if(request()->has('date')){
+                return $repository->search(request('q'),request('date'));
+            } else {
+                return $repository->search(request('q'));
+            }
         } else {
             return Instagram::all();
         }

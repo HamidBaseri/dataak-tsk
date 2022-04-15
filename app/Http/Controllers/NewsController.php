@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
-use App\Models\User;
 use App\News\NewsRepository;
-use App\Notifications\NewsCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,12 +18,14 @@ class NewsController extends Controller
     public function index(NewsRepository $repository)
     {
         if (request()->has('q')) {
-            return $repository->search(request('q'));
+            if(request()->has('date')){
+                return $repository->search(request('q'),request('date'));
+            } else {
+                return $repository->search(request('q'));
+            }
         } else {
             return News::all();
         }
-
-        // return News::all();
     }
 
     /**

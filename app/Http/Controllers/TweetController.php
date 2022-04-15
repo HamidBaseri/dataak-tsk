@@ -18,12 +18,14 @@ class TweetController extends Controller
     public function index(TweetsRepository $repository)
     {
         if (request()->has('q')) {
-            return $repository->search(request('q'));
+            if(request()->has('date')){
+                return $repository->search(request('q'),request('date'));
+            } else {
+                return $repository->search(request('q'));
+            }
         } else {
             return Tweet::all();
         }
-
-        // return Tweet::all();
     }
 
     /**
