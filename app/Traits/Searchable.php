@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Search;
+namespace App\Traits;
+
+use App\Repositories\Search\ElasticsearchObserver;
 
 trait Searchable
 {

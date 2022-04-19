@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use App\Models\Instagram;
-use App\Instagrams\InstagramsRepository;
+use App\Interfaces\InstagramRepository;
 use App\Models\Photo;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -15,22 +15,13 @@ class InstagramController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param InstagramsRepository $repository
+     * @param InstagramRepository $repository
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index(InstagramsRepository $repository)
+    public function index(InstagramRepository $repository)
     {
-        if (request()->has('q')) {
-            if(request()->has('date')){
-                return $repository->search(request('q'),request('date'));
-            } else {
-                return $repository->search(request('q'));
-            }
-        } else {
-            return Instagram::all();
-        }
-
-        // return Instagram::all();
+        //if we have query string we should search otherwise we should return all items
+        return request()->all()?$repository->search(request()->all()) : Instagram::all();
     }
 
     /**
@@ -47,27 +38,25 @@ class InstagramController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         try {
-
             $v = Validator::make($request->all(), [
                 'title' => 'required',
                 'body' => 'nullable',
                 'name' => 'required',
                 'username' => 'required',
-                'avatar' => 'nullable',
+                'avatarImage' => 'nullable',
                 'filenames' => 'required',
                 'filenames.*' => 'mimes:jpg,jpeg,png,webp,avi,mkv,mp4'
             ]);
 
             if ($v->fails())
             {
-                return $v->getMessageBag();
+                return response()->json($v->getMessageBag(),400);
             }
-
 
             if($request->hasfile('filenames'))
             {
@@ -95,23 +84,13 @@ class InstagramController extends Controller
 
                 }
             }
-
-
-
-            $Instagram = new Instagram();
-
-            $Instagram->title = $request['title'];
-            if(request()->has('body') ){
-                $Instagram->body = $request['body'];
+            $request['album_id'] = $album_id;
+            if($request->hasfile('avatarImage')){
+                $request['avatar'] = $request->file('avatarImage')->store('images');
             }
-            $Instagram->name = $request['name'];
-            $Instagram->username = $request['username'];
-            $Instagram->album_id = $album_id;
-            if($request->hasfile('avatar')){
-                $Instagram->avatar = $request->file('avatar')->store('images');
-            }
-            $Instagram->save();
-            return response()->json($Instagram);
+            $instagram = Instagram::create($request->all());
+
+            return response()->json($instagram);
 
 
         } catch (\Exception $e) {

@@ -26,8 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::GET('/tweets', [TweetController::class, 'index']);
 Route::POST('/tweets', [TweetController::class, 'store']);
 
-Route::GET('/instagrams', [InstagramController::class, 'index']);
-Route::POST('/instagrams', [InstagramController::class, 'store']);
+Route::GET('/instagram', [InstagramController::class, 'index']);
+Route::POST('/instagram', [InstagramController::class, 'store']);
 
 Route::GET('/news', [NewsController::class, 'index']);
 Route::POST('/news', [NewsController::class, 'store']);

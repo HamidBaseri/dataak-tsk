@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\TweetsRepository;
 use App\Models\Tweet;
-use App\Tweets\TweetsRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,15 +17,8 @@ class TweetController extends Controller
      */
     public function index(TweetsRepository $repository)
     {
-        if (request()->has('q')) {
-            if(request()->has('date')){
-                return $repository->search(request('q'),request('date'));
-            } else {
-                return $repository->search(request('q'));
-            }
-        } else {
-            return Tweet::all();
-        }
+        //if we have query string we should search otherwise we should return all items
+        return request()->all()?$repository->search(\request()->all()) : Tweet::all();
     }
 
     /**
@@ -42,35 +35,29 @@ class TweetController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         try {
-
             $v = Validator::make($request->all(), [
                 'username' => 'required',
                 'body' => 'required',
                 'retweets' => 'required|min:0',
-                'avatar' => 'required|image',
-                'image' => 'nullable|image',
+                'avatarImage' => 'required|image',
+                'tweetImage' => 'nullable|image',
             ]);
 
-            if ($v->fails())
-            {
-                return $v->getMessageBag();
+            if ($v->fails()) {
+                return response()->json($v->getMessageBag(),400);
             }
 
-            $tweet = new Tweet();
-
-            $tweet->body = $request['body'];
-            $tweet->username = $request['username'];
-            $tweet->retweets = $request['retweets'];
-            if($request->hasfile('image')) {
-                $tweet->image = $request->file('image')->store('images');
+            $tweetAvatar = $request->file('avatarImage')->store('images');
+            $request['avatar'] = $tweetAvatar;
+            if($request->hasfile('tweetImage')) {
+                $request['image'] = $request->file('tweetImage')->store('images');
             }
-            $tweet->avatar = $request->file('avatar')->store('images');
-            $tweet->save();
+            $tweet = Tweet::create($request->all());
             return response()->json($tweet);
 
         } catch (\Exception $e) {

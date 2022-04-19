@@ -1,11 +1,10 @@
 <?php
 
-namespace App\News;
+namespace App\Repositories\News;
 
 use App\Models\News;
-use App\Notifications\NewsCreated;
 use App\Models\User;
-use Elasticsearch\Endpoints\Count;
+use App\Notifications\NewsCreated;
 
 class NewsObserver
 {
@@ -14,12 +13,10 @@ class NewsObserver
     {
         $source = $news->source;
 
-//        $users= User::with('alerts')->where('source', '=', $source)->get();
-
         $users = User::whereHas("alerts", function ($q) use ($source) {
             $q->where("source", $source);
         })->get();
-//        dd($users);
+
         //just because channel is not set to show when notification will be sent
         if (Count($users)) {
             foreach ($users as $user) {
@@ -27,6 +24,7 @@ class NewsObserver
                 var_dump('notification sent to user: ' . $user->name);
             }
         }
+        //commented because this is just test project
 //        \Illuminate\Support\Facades\Notification::send($users, new NewsCreated());
     }
 }

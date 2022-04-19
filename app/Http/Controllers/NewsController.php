@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\NewsRepository;
 use App\Models\News;
-use App\News\NewsRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,15 +17,8 @@ class NewsController extends Controller
      */
     public function index(NewsRepository $repository)
     {
-        if (request()->has('q')) {
-            if(request()->has('date')){
-                return $repository->search(request('q'),request('date'));
-            } else {
-                return $repository->search(request('q'));
-            }
-        } else {
-            return News::all();
-        }
+        //if we have query string we should search otherwise we should return all items
+        return request()->all()?$repository->search(\request()->all()) : News::all();
     }
 
     /**
@@ -42,7 +35,7 @@ class NewsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -51,29 +44,19 @@ class NewsController extends Controller
                 'title' => 'required',
                 'source' => 'required',
                 'body' => 'required',
-                'src_url' => 'required',
-                'avatar' => 'nullable|image',
+                'src_url' => 'required|url',
+                'avatarImage' => 'nullable|image',
             ]);
 
             if ($v->fails()) {
-                return $v->getMessageBag();
+                return response()->json($v->getMessageBag(),400);
             }
 
-
-            $news = new News();
-            if ($request->hasfile('avatar')) {
-                $news->avatar = $request->file('avatar')->store('images');
+            if ($request->hasfile('avatarImage')) {
+                $news['avatar'] = $request->file('avatarImage')->store('images');
             }
-
-            $news->title = $request['title'];
-            $news->source = $request['source'];
-            $news->body = $request['body'];
-            $news->src_url = $request['src_url'];
-
-            $news->save();
-
+            $news = News::create($request->all());
             return response()->json($news);
-
         } catch (\Exception $e) {
             dd($e);
         }
